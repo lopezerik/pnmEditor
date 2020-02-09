@@ -6,10 +6,10 @@
 #ifndef FILTER_PNME
 #define FILTER_PNME
 class Filter : public Source, public Sink{
-	virtual void Update();
-	virtual const char *FilterName() = 0;
-	protected:
-		void executeWorker(int, int, bool);
+    virtual void Update();
+    virtual const char *FilterName() = 0;
+    protected:
+        void executeWorker(int, int, bool);
 };
 #endif
 
@@ -17,13 +17,13 @@ class Filter : public Source, public Sink{
 #define COLOR_PNME
 class Color : public Source{
     public:
-		Color(int w, int h, unsigned char r, unsigned char g, unsigned char b);
-		void Update();
-    protected:	
-		void Execute();
-		unsigned char red;
-		unsigned char green;
-		unsigned char blue;
+        Color(int w, int h, unsigned char r, unsigned char g, unsigned char b);
+        void Update();
+    protected:  
+        void Execute();
+        unsigned char red;
+        unsigned char green;
+        unsigned char blue;
 };
 #endif
 
@@ -31,12 +31,12 @@ class Color : public Source{
 #define CHECKSUM_PNME
 class CheckSum : public Sink{
     public:
-		CheckSum();
-		void OutputCheckSum(const char *);
+        CheckSum();
+        void OutputCheckSum(const char *);
     protected:
-		unsigned char redSum;
-		unsigned char greenSum;
-		unsigned char blueSum;
+        unsigned char redSum;
+        unsigned char greenSum;
+        unsigned char blueSum;
 };
 #endif
 
@@ -44,8 +44,8 @@ class CheckSum : public Sink{
 #define SHRINK_PNME
 class Shrink : public Filter{
     protected:
-		void Execute();
-		const char *FilterName();
+        void Execute();
+        const char *FilterName();
 };
 #endif
 
@@ -53,8 +53,8 @@ class Shrink : public Filter{
 #define LRJOIN_PNME
 class LRJoin : public Filter{
     protected:
-		void Execute();
-		const char *FilterName();
+        void Execute();
+        const char *FilterName();
 };
 #endif
 
@@ -62,8 +62,8 @@ class LRJoin : public Filter{
 #define TBJOIN_PNME
 class TBJoin : public Filter{
     protected:
-		void Execute();
-		const char *FilterName();
+        void Execute();
+        const char *FilterName();
 };
 #endif
 
@@ -71,12 +71,12 @@ class TBJoin : public Filter{
 #define BLEND_PNME
 class Blend : public Filter{
     public:
-		void SetFactor(float);
-		float GetFactor();
+        void SetFactor(float);
+        float GetFactor();
     protected:
-		const char *FilterName();
-		void Execute();
-		float factor;
+        const char *FilterName();
+        void Execute();
+        float factor;
 };
 #endif
 
@@ -84,8 +84,8 @@ class Blend : public Filter{
 #define MIRROR_PNME
 class Mirror : public Filter{
     protected:
-		void Execute();
-		const char *FilterName();
+        void Execute();
+        const char *FilterName();
 };
 #endif
 
@@ -93,8 +93,8 @@ class Mirror : public Filter{
 #define ROTATE_PNME
 class Rotate : public Filter{
     protected:
-		void Execute();
-		const char *FilterName();
+        void Execute();
+        const char *FilterName();
 };
 #endif
 
@@ -102,8 +102,8 @@ class Rotate : public Filter{
 #define SUB_PNME
 class Subtract : public Filter{
     protected:
-		void Execute();
-		const char *FilterName();
+        void Execute();
+        const char *FilterName();
 };
 #endif
 
@@ -111,8 +111,8 @@ class Subtract : public Filter{
 #define GRAY_PNME
 class Grayscale : public Filter{
     protected:
-		void Execute();
-		const char *FilterName();
+        void Execute();
+        const char *FilterName();
 };
 #endif
 
@@ -120,7 +120,7 @@ class Grayscale : public Filter{
 #define BLUR_PNME
 class Blur : public Filter{
     protected:
-		void Execute();
-		const char *FilterName();
+        void Execute();
+        const char *FilterName();
 };
 #endif
