@@ -94,48 +94,50 @@ void CheckSum::OutputCheckSum(const char *fileName){
     Logger::LogEvent(msg);
     fclose(out);
 }
-	
-	
+    
+    
 const char *Shrink::FilterName(void){
-	return "Shrink";
+    return "Shrink";
 }
 
 void Shrink::Execute(void){
-	// Set size
+    // Set size
     int halfWidth = GetImage()->getW() / 2;
-	int halfHeight = GetImage()->getH() / 2;
+    int halfHeight = GetImage()->getH() / 2;
     GetOutput()->ResetSize(halfWidth, halfHeight);
     // (i, j) in this->GetImage() ->= (2*i, 2*j) in input
     for(int i = 0; i < halfHeight; i++){
         for(int j = 0; j < halfWidth; j++){
-			int outputIndex = (halfWidth*i) + j;
-			int imageIndex = (2*GetImage()->getW()*i) + 2*j;
+            int outputIndex = (halfWidth*i) + j;
+            int imageIndex = (2*GetImage()->getW()*i) + 2*j;
             executeWorker(outputIndex, imageIndex, false);
         }
     }
 }
 
 const char *LRJoin::FilterName(void){
-	return "LRJoin";
+    return "LRJoin";
 }
 
 void LRJoin::Execute(void){
-	// Input2 error
-	if(GetImage2() == NULL){
-		char msg[1024];
-		sprintf(msg, "LRJoin: no input2!");
-		DataFlowException e("LRJoin", msg);
-		throw e;
-	}
-	// Check for height exception
-	if(GetImage()->getH() != GetImage2()->getH()){
-		char msg[1024];
-		sprintf(msg, "LRJoin: heights must match: %d, %d", GetImage()->getH(), GetImage2()->getH());
-		DataFlowException e("LRJoin", msg);
-		throw e;
-	}
-	 
-	// Set this->GetImage()->size
+    // Input2 error
+    
+
+    if(GetImage2() == NULL){
+        char msg[1024];
+        sprintf(msg, "LRJoin: no input2!");
+        DataFlowException e("LRJoin", msg);
+        throw e;
+    }
+    // Check for height exception
+    if(GetImage()->getH() != GetImage2()->getH()){
+        char msg[1024];
+        sprintf(msg, "LRJoin: heights must match: %d, %d", GetImage()->getH(), GetImage2()->getH());
+        DataFlowException e("LRJoin", msg);
+        throw e;
+    }
+     
+    // Set this->GetImage()->size
     int newWidth = GetImage()->getW() + GetImage2()->getW();
 
     GetOutput()->ResetSize(newWidth, GetImage()->getH());
@@ -159,23 +161,23 @@ void LRJoin::Execute(void){
 }
 
 const char *TBJoin::FilterName(void){
-	return "TBJoin";
+    return "TBJoin";
 }
 
 void TBJoin::Execute(void){
-	if(GetImage2() == NULL){
-		char msg[1024];
-		sprintf(msg, "TBJoin: no input2!");
-		DataFlowException e("TBJoin", msg);
-		throw e;
-	}
-	if(GetImage()->getW() != GetImage2()->getW()){
-		char msg[1024];
-		sprintf(msg, "TBJoin: widths must match: %d, %d", GetImage()->getW(), GetImage2()->getW());
-		DataFlowException e("TBJoin", msg);
-		throw e;
-	}
-	// Set size
+    if(GetImage2() == NULL){
+        char msg[1024];
+        sprintf(msg, "TBJoin: no input2!");
+        DataFlowException e("TBJoin", msg);
+        throw e;
+    }
+    if(GetImage()->getW() != GetImage2()->getW()){
+        char msg[1024];
+        sprintf(msg, "TBJoin: widths must match: %d, %d", GetImage()->getW(), GetImage2()->getW());
+        DataFlowException e("TBJoin", msg);
+        throw e;
+    }
+    // Set size
     int newHeight = GetImage()->getH() + GetImage2()->getH();
     GetOutput()->ResetSize(GetImage()->getW(), newHeight);
 
@@ -198,14 +200,14 @@ void TBJoin::Execute(void){
 }
 
 const char *Blend::FilterName(void){
-	return "Blend";
+    return "Blend";
 }
 void Blend::SetFactor(float f){
-	this->factor = f;
+    this->factor = f;
 }
 
 float Blend::GetFactor(void){
-	return this->factor;
+    return this->factor;
 }
 
 void Blend::Execute(void){
@@ -254,11 +256,11 @@ void Blend::Execute(void){
 }
 
 const char *Mirror::FilterName(void){
-	return "Mirror";
+    return "Mirror";
 }
 
 void Mirror::Execute(void){
-	GetOutput()->ResetSize(GetImage()->getW(), GetImage()->getH());
+    GetOutput()->ResetSize(GetImage()->getW(), GetImage()->getH());
     for(int i = 0; i < GetImage()->getH(); i++){
         for(int j = 0; j < GetImage()->getW(); j++){
             int outputIndex = (GetImage()->getW()*i) + j;
@@ -269,11 +271,11 @@ void Mirror::Execute(void){
 }
 
 const char *Rotate::FilterName(void){
-	return "Rotate";
+    return "Rotate";
 }
 
 void Rotate::Execute(void){
-	GetOutput()->ResetSize(GetImage()->getH(), GetImage()->getW());
+    GetOutput()->ResetSize(GetImage()->getH(), GetImage()->getW());
     for(int i = 0; i < GetImage()->getH(); i++){
         for(int j = 0; j < GetImage()->getW(); j++){
             int outputIndex = (GetOutput()->getW()*j) + ((GetOutput()->getW() - 1) - i);
@@ -284,32 +286,32 @@ void Rotate::Execute(void){
 }
 
 const char *Subtract::FilterName(void){
-	return "Subtract";
+    return "Subtract";
 }
 
 void Subtract::Execute(void){
-	if(GetImage2() == NULL){
-		char msg[1024];
-		sprintf(msg, "Subtract: no input2!");
-		DataFlowException e("Subtract", msg);
-		throw e;
-	}
-	if((GetImage()->getW() != GetImage2()->getW()) | (GetImage()->getH() != GetImage2()->getH())){
-	    char msg[1024];
-	    sprintf(msg, "Invalid dimensions for Subtract: %dx%d and %dx%d", 
+    if(GetImage2() == NULL){
+        char msg[1024];
+        sprintf(msg, "Subtract: no input2!");
+        DataFlowException e("Subtract", msg);
+        throw e;
+    }
+    if((GetImage()->getW() != GetImage2()->getW()) | (GetImage()->getH() != GetImage2()->getH())){
+        char msg[1024];
+        sprintf(msg, "Invalid dimensions for Subtract: %dx%d and %dx%d", 
                 GetImage()->getW(), GetImage()->getH(), GetImage2()->getW(), GetImage2()->getH());
         DataFlowException e("Subtract", msg);
-	    throw e;
-	}
-	GetOutput()->ResetSize(GetImage()->getW(), GetImage()->getH());
+        throw e;
+    }
+    GetOutput()->ResetSize(GetImage()->getW(), GetImage()->getH());
     for(int i = 0; i < GetImage()->getH(); i++){
         for(int j = 0; j < GetImage()->getW(); j++){
-    		unsigned char r;
+            unsigned char r;
             unsigned char r1 = GetImage()->GetBuff()[GetImage()->getW()*i + j].r;
             unsigned char r2 = GetImage2()->GetBuff()[GetImage2()->getW()*i + j].r;
-        	if(r1 > r2){
+            if(r1 > r2){
                 r = r1 - r2;
-	       	} else{
+            } else{
                 r = 0;
             }
             GetOutput()->GetBuff()[GetImage()->getW()*i + j].r = r;
@@ -318,7 +320,7 @@ void Subtract::Execute(void){
             unsigned char g1 = GetImage()->GetBuff()[GetImage()->getW()*i + j].g;
             unsigned char g2 = GetImage2()->GetBuff()[GetImage2()->getW()*i + j].g;
             if(g1 > g2){
-           	    g = g1 - g2;
+                g = g1 - g2;
             } else{
                 g = 0;
             }
@@ -328,7 +330,7 @@ void Subtract::Execute(void){
             unsigned char b1 = GetImage()->GetBuff()[GetImage()->getW()*i + j].b;
             unsigned char b2 = GetImage2()->GetBuff()[GetImage2()->getW()*i + j].b;
             if(b1 > b2){
-           	    b = b1 - b2;
+                b = b1 - b2;
             } else{
                 b = 0;
             }
@@ -338,11 +340,11 @@ void Subtract::Execute(void){
 }
 
 const char *Grayscale::FilterName(void){
-	return "Grayscale";
+    return "Grayscale";
 }
 
 void Grayscale::Execute(void){
-	GetOutput()->ResetSize(GetImage()->getW(), GetImage()->getH());
+    GetOutput()->ResetSize(GetImage()->getW(), GetImage()->getH());
     for(int i = 0; i < GetImage()->getH(); i++){
         for(int j = 0; j < GetImage()->getW(); j++){
             unsigned char r = GetImage()->GetBuff()[GetImage()->getW()*i + j].r;
@@ -358,52 +360,52 @@ void Grayscale::Execute(void){
 }
 
 const char *Blur::FilterName(void){
-	return "Blur";
+    return "Blur";
 }
 
 void Blur::Execute(void){
-	GetOutput()->ResetSize(GetImage()->getW(), GetImage()->getH());
+    GetOutput()->ResetSize(GetImage()->getW(), GetImage()->getH());
     for(int i = 0; i < GetImage()->getH(); i++){
         for(int j = 0; j < GetImage()->getW(); j++){
-	        if((i == 0) | (i == GetImage()->getH() - 1) | (j == 0) | (j == GetImage()->getW() - 1)){
+            if((i == 0) | (i == GetImage()->getH() - 1) | (j == 0) | (j == GetImage()->getW() - 1)){
                 int outputIndex = (GetImage()->getW()*i) + j;
                 int imageIndex = (GetImage()->getW()*i) + j;
                 executeWorker(outputIndex, imageIndex, false);
             } else{
-    		    unsigned char r1 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j-1)].r / 8;
-    		    unsigned char r2 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j-1)].r / 8;
-    		    unsigned char r3 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j-1)].r / 8;
-    		    unsigned char r4 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j)].r / 8;
-    		    unsigned char r5 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j)].r / 8;
-    		    unsigned char r6 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j+1)].r / 8;
-    		    unsigned char r7 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j+1)].r / 8;
-    		    unsigned char r8 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j+1)].r / 8;
-    		    unsigned char r = (r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8);
+                unsigned char r1 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j-1)].r / 8;
+                unsigned char r2 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j-1)].r / 8;
+                unsigned char r3 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j-1)].r / 8;
+                unsigned char r4 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j)].r / 8;
+                unsigned char r5 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j)].r / 8;
+                unsigned char r6 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j+1)].r / 8;
+                unsigned char r7 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j+1)].r / 8;
+                unsigned char r8 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j+1)].r / 8;
+                unsigned char r = (r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8);
 
-    		    unsigned char g1 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j-1)].g / 8;
-    		    unsigned char g2 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j-1)].g / 8;
-    		    unsigned char g3 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j-1)].g / 8;
-    		    unsigned char g4 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j)].g / 8;
-    		    unsigned char g5 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j)].g / 8;
-    		    unsigned char g6 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j+1)].g / 8;
-    		    unsigned char g7 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j+1)].g / 8;
-    		    unsigned char g8 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j+1)].g / 8;
-    		    unsigned char g = (g1 + g2 + g3 + g4 + g5 + g6 + g7 + g8);
+                unsigned char g1 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j-1)].g / 8;
+                unsigned char g2 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j-1)].g / 8;
+                unsigned char g3 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j-1)].g / 8;
+                unsigned char g4 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j)].g / 8;
+                unsigned char g5 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j)].g / 8;
+                unsigned char g6 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j+1)].g / 8;
+                unsigned char g7 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j+1)].g / 8;
+                unsigned char g8 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j+1)].g / 8;
+                unsigned char g = (g1 + g2 + g3 + g4 + g5 + g6 + g7 + g8);
 
-    		    unsigned char b1 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j-1)].b / 8;
-    		    unsigned char b2 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j-1)].b / 8;
-    		    unsigned char b3 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j-1)].b / 8;
-    		    unsigned char b4 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j)].b / 8;
-    		    unsigned char b5 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j)].b / 8;
-    		    unsigned char b6 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j+1)].b / 8;
-    		    unsigned char b7 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j+1)].b / 8;
-    		    unsigned char b8 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j+1)].b / 8;
-    		    unsigned char b = (b1 + b2 + b3 + b4 + b5 + b6 + b7 + b8);
+                unsigned char b1 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j-1)].b / 8;
+                unsigned char b2 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j-1)].b / 8;
+                unsigned char b3 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j-1)].b / 8;
+                unsigned char b4 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j)].b / 8;
+                unsigned char b5 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j)].b / 8;
+                unsigned char b6 = GetImage()->GetBuff()[(GetImage()->getW()*(i - 1)) + (j+1)].b / 8;
+                unsigned char b7 = GetImage()->GetBuff()[(GetImage()->getW()*i) + (j+1)].b / 8;
+                unsigned char b8 = GetImage()->GetBuff()[(GetImage()->getW()*(i + 1)) + (j+1)].b / 8;
+                unsigned char b = (b1 + b2 + b3 + b4 + b5 + b6 + b7 + b8);
 
                 GetOutput()->GetBuff()[GetImage()->getW()*i + j].r = r;
                 GetOutput()->GetBuff()[GetImage()->getW()*i + j].g = g;
                 GetOutput()->GetBuff()[GetImage()->getW()*i + j].b = b;
             }
-	    }
+        }
     }
 }
