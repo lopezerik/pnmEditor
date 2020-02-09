@@ -28,27 +28,27 @@ void Filter::Update(void){
         Execute();
         sprintf(msg, "%s: done executing", FilterName());
         Logger::LogEvent(msg);
-	}
+    }
 }
 
 void Filter::executeWorker(int outputIndex, int imageIndex, bool isSecondImage){
-	if(! isSecondImage){
-		GetOutput()->GetBuff()[outputIndex].r = GetImage()->GetBuff()[imageIndex].r;
-		GetOutput()->GetBuff()[outputIndex].g = GetImage()->GetBuff()[imageIndex].g;
-		GetOutput()->GetBuff()[outputIndex].b = GetImage()->GetBuff()[imageIndex].b;
-	} else{
-		GetOutput()->GetBuff()[outputIndex].r = GetImage2()->GetBuff()[imageIndex].r;
-		GetOutput()->GetBuff()[outputIndex].g = GetImage2()->GetBuff()[imageIndex].g;
-		GetOutput()->GetBuff()[outputIndex].b = GetImage2()->GetBuff()[imageIndex].b;
-	}
+    if(! isSecondImage){
+        GetOutput()->GetBuff()[outputIndex].r = GetImage()->GetBuff()[imageIndex].r;
+        GetOutput()->GetBuff()[outputIndex].g = GetImage()->GetBuff()[imageIndex].g;
+        GetOutput()->GetBuff()[outputIndex].b = GetImage()->GetBuff()[imageIndex].b;
+    } else{
+        GetOutput()->GetBuff()[outputIndex].r = GetImage2()->GetBuff()[imageIndex].r;
+        GetOutput()->GetBuff()[outputIndex].g = GetImage2()->GetBuff()[imageIndex].g;
+        GetOutput()->GetBuff()[outputIndex].b = GetImage2()->GetBuff()[imageIndex].b;
+    }
 }
 
 Color::Color(int width, int height, unsigned char r, unsigned char g, unsigned char b){
-	GetOutput()->ResetSize(width, height);
-	this->red = r;
-	this->green = g;
-	this->blue = b;
-	Execute();
+    GetOutput()->ResetSize(width, height);
+    this->red = r;
+    this->green = g;
+    this->blue = b;
+    Execute();
 }
 
 void Color::Update(void){
@@ -71,28 +71,28 @@ void Color::Execute(void){
 }
 
 CheckSum::CheckSum(void){
-	this->redSum = 0;
-	this->greenSum = 0;
-	this->blueSum = 0;
+    this->redSum = 0;
+    this->greenSum = 0;
+    this->blueSum = 0;
 }
 
 void CheckSum::OutputCheckSum(const char *fileName){
-	char msg[128];
-	sprintf(msg, "CheckSum: about to output CheckSum");
-	Logger::LogEvent(msg);
+    char msg[128];
+    sprintf(msg, "CheckSum: about to output CheckSum");
+    Logger::LogEvent(msg);
 
-	FILE *out = fopen(fileName, "w");
-	for(int i = 0; i < GetImage()->getH(); i++){
+    FILE *out = fopen(fileName, "w");
+    for(int i = 0; i < GetImage()->getH(); i++){
         for(int j = 0; j < GetImage()->getW(); j++){
             this->redSum += GetImage()->GetBuff()[GetImage()->getW()*i + j].r;
             this->greenSum += GetImage()->GetBuff()[GetImage()->getW()*i + j].g;
             this->blueSum += GetImage()->GetBuff()[GetImage()->getW()*i + j].b;
         }
     }
-	fprintf(out, "CHECKSUM: %d, %d, %d\n", this->redSum, this->greenSum, this->blueSum);
-	sprintf(msg, "CheckSum: done outputing CheckSum file");
-	Logger::LogEvent(msg);
-	fclose(out);
+    fprintf(out, "CHECKSUM: %d, %d, %d\n", this->redSum, this->greenSum, this->blueSum);
+    sprintf(msg, "CheckSum: done outputing CheckSum file");
+    Logger::LogEvent(msg);
+    fclose(out);
 }
 	
 	
