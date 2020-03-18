@@ -120,9 +120,8 @@ const char *LRJoin::FilterName(void){
 }
 
 void LRJoin::Execute(void){
-    // Input2 error
-    
 
+    // Input2 error
     if(GetImage2() == NULL){
         char msg[1024];
         sprintf(msg, "LRJoin: no input2!");
@@ -142,7 +141,7 @@ void LRJoin::Execute(void){
 
     GetOutput()->ResetSize(newWidth, GetImage()->getH());
 
-    // I used two loops for futre proofing in case images dont have the same width
+    // Used two loops to account for images that don't have the same width
     // Adds in left image
     for(int i = 0; i < GetOutput()->getH(); i++){
         for(int j = 0; j < newWidth; j++){
@@ -177,11 +176,12 @@ void TBJoin::Execute(void){
         DataFlowException e("TBJoin", msg);
         throw e;
     }
+
     // Set size
     int newHeight = GetImage()->getH() + GetImage2()->getH();
     GetOutput()->ResetSize(GetImage()->getW(), newHeight);
 
-    // I used two loops for futre proofing in case images dont have the same height
+    // Used two loops for images that don't have the same height
     // Adds in top image
     for(int i = 0; i < newHeight; i++){
         for(int j = 0; j < GetImage()->getW(); j++){
@@ -230,7 +230,7 @@ void Blend::Execute(void){
         DataFlowException e("Blend", msg);
         throw e;
     }
-    // Set GetImage()->size
+    // Set GetImage()->size()
     int width = GetImage()->getW();
     int height = GetImage()->getH();
     GetOutput()->ResetSize(width, height);
@@ -240,13 +240,13 @@ void Blend::Execute(void){
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
             unsigned char r = factor*GetImage()->GetBuff()[(width*i) + j].r +
-                                lowFtr*GetImage2()->GetBuff()[(width*i) + j].r;
+                              lowFtr*GetImage2()->GetBuff()[(width*i) + j].r;
 
             unsigned char g = factor*GetImage()->GetBuff()[(width*i) + j].g + 
-                                lowFtr*GetImage2()->GetBuff()[(width*i) + j].g;
+                              lowFtr*GetImage2()->GetBuff()[(width*i) + j].g;
 
             unsigned char b = factor*GetImage()->GetBuff()[(width*i) + j].b + 
-                                lowFtr*GetImage2()->GetBuff()[(width*i) + j].b;
+                              lowFtr*GetImage2()->GetBuff()[(width*i) + j].b;
 
             GetOutput()->GetBuff()[(width*i) + j].r = r;
             GetOutput()->GetBuff()[(width*i) + j].g = g;
@@ -306,34 +306,19 @@ void Subtract::Execute(void){
     GetOutput()->ResetSize(GetImage()->getW(), GetImage()->getH());
     for(int i = 0; i < GetImage()->getH(); i++){
         for(int j = 0; j < GetImage()->getW(); j++){
-            unsigned char r;
             unsigned char r1 = GetImage()->GetBuff()[GetImage()->getW()*i + j].r;
             unsigned char r2 = GetImage2()->GetBuff()[GetImage2()->getW()*i + j].r;
-            if(r1 > r2){
-                r = r1 - r2;
-            } else{
-                r = 0;
-            }
+            unsigned char r = (r1 > r2) ? (r1 - r2) : 0;
             GetOutput()->GetBuff()[GetImage()->getW()*i + j].r = r;
 
-            unsigned char g;
             unsigned char g1 = GetImage()->GetBuff()[GetImage()->getW()*i + j].g;
             unsigned char g2 = GetImage2()->GetBuff()[GetImage2()->getW()*i + j].g;
-            if(g1 > g2){
-                g = g1 - g2;
-            } else{
-                g = 0;
-            }
+            unsigned char g = (g1 > g2) ? (g1 - g2) : 0;
             GetOutput()->GetBuff()[GetImage()->getW()*i + j].g = g;
 
-            unsigned char b;
             unsigned char b1 = GetImage()->GetBuff()[GetImage()->getW()*i + j].b;
             unsigned char b2 = GetImage2()->GetBuff()[GetImage2()->getW()*i + j].b;
-            if(b1 > b2){
-                b = b1 - b2;
-            } else{
-                b = 0;
-            }
+            unsigned char b = (b1 > b2) ? (b1 - b2) : 0;
             GetOutput()->GetBuff()[GetImage()->getW()*i + j].b = b;
         }
     }
