@@ -49,18 +49,18 @@ class Shrink : public Filter{
 };
 #endif
 
-#ifndef LRJOIN_PNME
-#define LRJOIN_PNME
-class LRJoin : public Filter{
+#ifndef JOINLR_PNME
+#define JOINLR_PNME
+class joinLR : public Filter{
     protected:
         void Execute();
         const char *FilterName();
 };
 #endif
 
-#ifndef TBJOIN_PNME
-#define TBJOIN_PNME
-class TBJoin : public Filter{
+#ifndef JOINTB_PNME
+#define JOINTB_PNME
+class joinTB : public Filter{
     protected:
         void Execute();
         const char *FilterName();

@@ -19,7 +19,7 @@ void Logger::LogEvent(const char *event){
 }
 
 void Logger::Finalize(){
-    // Finalze aka close file
+    // Finalize aka close file
     fclose(logger);
 }
 

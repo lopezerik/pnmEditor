@@ -32,7 +32,7 @@ void PNMreader::Execute(){
         printf("Unable to open file in PNMreader \"%s\".\n", this->filename);
         char msg[1024];
         sprintf(msg, "Unable to open file in PNMreader ");
-        DataFlowException e("LRJoin", msg);
+        DataFlowException e("PNMreader", msg);
         throw e;
         exit(EXIT_FAILURE);
     }

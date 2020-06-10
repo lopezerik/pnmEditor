@@ -2,25 +2,27 @@
 #include <PNMwriter.h>
 #include <filters.h>
 
-int main(int argc, char *argv[]){
+int main(int argc, char* argv[]){
     // Read in the pnm file specified by 'argv[1]'
     PNMreader reader(argv[1]);
 
+    Image* inputImage = reader.GetOutput();
+
     // Example filter setup below
-    // Set filters
+    // Create filter objects
     Blur br;
     Blur br2;
     Blur br3;
     Mirror mr;
-    LRJoin lr;
+    joinLR lr;
     Rotate rt;
     
     // Set filter order and heirachy
-    br.SetInput(reader.GetOutput());
+    br.SetInput(inputImage);
     br2.SetInput(br.GetOutput());
     br3.SetInput(br2.GetOutput());
 
-    mr.SetInput(reader.GetOutput());
+    mr.SetInput(inputImage);
 
     lr.SetInput(br3.GetOutput());
     lr.SetInput2(mr.GetOutput());
@@ -29,9 +31,10 @@ int main(int argc, char *argv[]){
 
     // Update the final filter in order to execute all preceding filters
     rt.GetOutput()->Update();
+    Image* finalImage = rt.GetOutput();
 
     // Write the image to the file specified in 'argv[2]'
     PNMwriter writer;
-    writer.SetInput(rt.GetOutput());
+    writer.SetInput(finalImage);
     writer.Write(argv[2]);
 }

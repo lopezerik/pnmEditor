@@ -115,24 +115,24 @@ void Shrink::Execute(void){
     }
 }
 
-const char *LRJoin::FilterName(void){
-    return "LRJoin";
+const char *joinLR::FilterName(void){
+    return "joinLR";
 }
 
-void LRJoin::Execute(void){
+void joinLR::Execute(void){
 
     // Input2 error
     if(GetImage2() == NULL){
         char msg[1024];
-        sprintf(msg, "LRJoin: no input2!");
-        DataFlowException e("LRJoin", msg);
+        sprintf(msg, "joinLR: no input2!");
+        DataFlowException e("joinLR", msg);
         throw e;
     }
     // Check for height exception
     if(GetImage()->getH() != GetImage2()->getH()){
         char msg[1024];
-        sprintf(msg, "LRJoin: heights must match: %d, %d", GetImage()->getH(), GetImage2()->getH());
-        DataFlowException e("LRJoin", msg);
+        sprintf(msg, "joinLR: heights must match: %d, %d", GetImage()->getH(), GetImage2()->getH());
+        DataFlowException e("joinLR", msg);
         throw e;
     }
      
@@ -159,21 +159,21 @@ void LRJoin::Execute(void){
     }
 }
 
-const char *TBJoin::FilterName(void){
-    return "TBJoin";
+const char *joinTB::FilterName(void){
+    return "joinTB";
 }
 
-void TBJoin::Execute(void){
+void joinTB::Execute(void){
     if(GetImage2() == NULL){
         char msg[1024];
-        sprintf(msg, "TBJoin: no input2!");
-        DataFlowException e("TBJoin", msg);
+        sprintf(msg, "joinTB: no input2!");
+        DataFlowException e("joinTB", msg);
         throw e;
     }
     if(GetImage()->getW() != GetImage2()->getW()){
         char msg[1024];
-        sprintf(msg, "TBJoin: widths must match: %d, %d", GetImage()->getW(), GetImage2()->getW());
-        DataFlowException e("TBJoin", msg);
+        sprintf(msg, "joinTB: widths must match: %d, %d", GetImage()->getW(), GetImage2()->getW());
+        DataFlowException e("joinTB", msg);
         throw e;
     }
 
