@@ -25,12 +25,12 @@ objects in the order you intend to use them to avoid confusion and errors. Next,
 order to use the result of a filter as the input of another filter. Once you have lined up all of  
 your filters, call the `Update()` method on the final image from the final filter.  
 ```C++
-finalFilter.GetOutput()->Update()
+finalFilter.GetOutput()->Update();
 ```
 Update the pointer `finalImage` to point to the result of  
 the final filter. 
 ``` C++
-Image* finalImage = finalFilter.GetOutput()
+Image* finalImage = finalFilter.GetOutput();
 ```
 
 # Filters  
@@ -45,7 +45,7 @@ original image.
     shrink.GetOutput()->Update();     // Execute the update
     ```  
 
-* <b>joinLR</b>
+* <b>joinLR</b>  
 This filter attaches two images side by side. The two images must be of equal height in order to  
 join them together. The two images are allowed to have different widths.  
     ```C++
@@ -55,7 +55,7 @@ join them together. The two images are allowed to have different widths.
 	lr.GetOutput()->Update();    // Execute the update
     ```  
 
-* <b>joinTB</b>
+* <b>joinTB</b>  
 This filter attaches one image on top of another. The two images must be of equal width in order  
 to join them together. The two images are allowed to have different heights.  
     ```C++
@@ -65,7 +65,7 @@ to join them together. The two images are allowed to have different heights.
     tb.GetOutput()->Update();     // Execute the update
     ```  
 
-* <b>Blend</b>
+* <b>Blend</b>  
 This filter takes two images and blends them together. You can decide the intensity of the filter  
 by setting the `factor` to different values. For example, a factor of 0.7 would result in a final  
 image that is 70% of Input 1 and 30% of Input 2. Factor values must be above 0.5 for the filter  
@@ -79,7 +79,7 @@ properly.
     bl.GetOutput()->Update();     // Execute the update
     ```  
 
-* <b>Mirror</b>
+* <b>Mirror</b>  
 This filter takes an image and flips it over the y-axis. In other words, it takes the image and  
 flips it horizontally. 
     ```C++
@@ -88,7 +88,7 @@ flips it horizontally.
     mr.GetOutput()->Update();     // Execute the update
     ```  
 
-* <b>Rotate</b>
+* <b>Rotate</b>  
 This filter takes an image and rotates it 90 degrees clockwise. Keep in mind that the width and  
 height swap when a rotation is performed. This can cause issues if you are trying to use joinLR  
 or joinTB on rotated images. If the original image had a height H and a width W, the result has a  
@@ -99,7 +99,7 @@ height W and a width H.
 	rt.GetOutput()->Update();    // Execute the update
     ```  
 
-* <b>Subtract</b>
+* <b>Subtract</b>  
 This filter takes the difference between two images (Result = Input1 - Input2). This is  
 accomplished by subtracting the difference between color channels in each pixel. Both images must  
 have the same exact dimensions for this filter to work.  
@@ -110,7 +110,7 @@ have the same exact dimensions for this filter to work.
     sb.GetOutput()->Update();    // Execute the update
     ```  
 
-* <b>Grayscale</b>
+* <b>Grayscale</b>  
 This filter essentially removes the color from an image by reducing the values in the color  
 channels.  
 The calculations for the color channel values are:  
@@ -124,7 +124,7 @@ The values are calculated using the C/C++ division operator `/` and not the modu
     gs.GetOutput()->Update;    // Execute update
     ```  
 
-* <b>Blur</b>
+* <b>Blur</b>  
 This filter blurs an image by setting the color value of each pixel to the average value of the  
 pixels that neighbor it. Pixels with less than 8 neighbors (meaning pixels along the edge of an  
 image) are not modified.  
