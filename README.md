@@ -8,31 +8,43 @@ it, rotating it, or joining it together with another image.
 
 The recommended way to use this program is in the command line. You can run the program right  
 away without any modifications.  
-### Example  
+### <a name="example"></a> Example from the command line  
 1. `make` - Run the makefile in order to compile the program.  
-2. `./pnmEditor input.pnm output.pnm` - If `output.pnm` does not exist when the program is run  
-the program will create it. The program will overwrite ‘output.pnm’ if the file already exists.  
-If you forget to add `.pnm` to the end of the output file, rename the file with `.pnm` at the end  
-and the file will work as intended.  
+2. `./pnmEditor input.pnm output.pnm` - Execute the program with your input image. If  
+`output.pnm` does not exist when the program is run, the program will create `output.pnm`. The  
+program will overwrite `output.pnm` if the file already exists. If you forget to add `.pnm` to  
+the end of the output file, rename the file with `.pnm` at the end and the file will work as  
+intended. Your output file does not have to named `output.pnm`.  
 3. Done.  
 
 ### Create your own  
 In order to modify what filters are applied to the input image, you will have to open  
 `mainEditor.C` and create your own filter hierarchies. This file already contains an example of a  
 valid filter setup which you can use as a template. It is recommended to create your filter  
-objects in the order you intend to use them to avoid confusion and errors. Next, pass the  
-`inputImage` to your first filter using the `SetInput()` method. Use the `GetOutput` method in  
-order to use the result of a filter as the input of another filter. Once you have lined up all of  
-your filters, call the `Update()` method on the final image from the final filter.  
+objects in the order you intend to use them to avoid confusion and errors.  
+```C++
+Blur firstFilter;       // Blurs an image
+joinLR secondFilter;    // Joins two images together
+Mirror finalFilter;     // Mirrors an image over the y-axis
+```  
+Next, pass the `inputImage` to your first filter using the `SetInput()` method. The `SetInput2()`  
+method is used for filters which require two input images. Use the `GetOutput()` method in order to  
+retrieve the result of a filter.  
+```C++
+firstFilter.SetInput(inputImage);
+secondFilter.SetInput(firstFilter.GetOutput());
+secondFilter.SetInput2(inputImage);
+finalFilter.SetInput(secondFilter.GetOutput());
+```  
+Once you have lined up all of your filters, call the `Update()` method on the final image.  
 ```C++
 finalFilter.GetOutput()->Update();
-```
-Update the pointer `finalImage` to point to the result of  
-the final filter. 
+```  
+Update the pointer `finalImage` to point to the result of the final filter.  
 ``` C++
 Image* finalImage = finalFilter.GetOutput();
 ```
-
+Save the file and [run the program.](#example)  
 # Filters  
 This is an explanation of the various filters and examples of their usage.  
 
@@ -95,7 +107,7 @@ or joinTB on rotated images. If the original image had a height H and a width W,
 height W and a width H.  
     ```C++
     Rotate rt;                   // Create Rotate object
-	rt.SetInput(Image a);        // Pass the image to the object
+	rt.SetInput(Image* a);        // Pass the image to the object
 	rt.GetOutput()->Update();    // Execute the update
     ```  
 
@@ -105,8 +117,8 @@ accomplished by subtracting the difference between color channels in each pixel.
 have the same exact dimensions for this filter to work.  
     ```C++
     Subtract sb;                 // Create Subtract object
-    sb.SetInput(Image a);        // Pass in Input 1
-    sb.SetInput2(Image b);       // Pass in Input 2
+    sb.SetInput(Image* a);        // Pass in Input 1
+    sb.SetInput2(Image* b);       // Pass in Input 2
     sb.GetOutput()->Update();    // Execute the update
     ```  
 
@@ -120,7 +132,7 @@ The calculations for the color channel values are:
 The values are calculated using the C/C++ division operator `/` and not the modulus operator `%`.  
     ```C++
     Grayscale gs;              // Create Grayscale object
-    gs.SetInput(Image a);      // Pass in image
+    gs.SetInput(Image* a);      // Pass in image
     gs.GetOutput()->Update;    // Execute update
     ```  
 
@@ -130,7 +142,7 @@ pixels that neighbor it. Pixels with less than 8 neighbors (meaning pixels along
 image) are not modified.  
     ```C++
     Blur br;                     // Create Blur object
-    br.SetInput(Image a);        // Pass in image
+    br.SetInput(Image* a);        // Pass in image
     br.GetOutput()->Update();    // Execute update
     ```  
 
